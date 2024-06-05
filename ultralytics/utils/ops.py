@@ -859,7 +859,7 @@ def v10postprocess(preds, max_det, nc=80):
     scores = torch.gather(scores, dim=1, index=index.repeat(1, 1, scores.shape[-1]))
 
     scores, index = torch.topk(scores.flatten(1), max_det, dim=-1)
-    labels = (index % nc).astype(torch.float32)
+    labels = (index % nc).to(torch.float32)
     index = index // nc
     boxes = boxes.gather(dim=1, index=index.unsqueeze(-1).repeat(1, 1, boxes.shape[-1]))
     return boxes, scores, labels
